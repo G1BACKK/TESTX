@@ -11,19 +11,16 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
-        
         body {
-            background-color: #121212;
+            background: #121212;
             color: #e1e1e1;
             padding: 20px;
         }
-        
         h1 {
             text-align: center;
             margin-bottom: 30px;
             color: #ff2d55;
         }
-        
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -31,65 +28,54 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
         .video-card {
             background: #1a1a1a;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        
         .video-thumbnail {
             width: 100%;
             height: 180px;
             object-fit: cover;
             cursor: pointer;
         }
-        
         .video-info {
             padding: 15px;
         }
-        
         .video-title {
             font-size: 16px;
             margin-bottom: 10px;
         }
-        
         video {
             width: 100%;
             border-radius: 8px;
             display: none;
         }
-        
         .active-video {
             display: block;
         }
-
         .video-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 10px;
         }
-        
         .copy-link-btn {
             background: #333;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
         }
-        
         .copy-link-btn:hover {
             background: #555;
         }
-        
         .copy-link-btn.copied {
             background: #4CAF50;
         }
-        
         /* Payment Overlay */
         .payment-overlay {
             position: fixed;
@@ -104,7 +90,6 @@
             align-items: center;
             z-index: 1000;
         }
-        
         .payment-box {
             background: white;
             padding: 30px;
@@ -114,25 +99,21 @@
             text-align: center;
             color: #333;
         }
-        
         .payment-title {
             font-size: 24px;
             margin-bottom: 15px;
             color: #ff2d55;
         }
-        
         .payment-amount {
             font-size: 28px;
             font-weight: bold;
             margin: 10px 0;
         }
-        
         .qr-code {
             width: 200px;
             height: 200px;
             margin: 15px auto;
         }
-        
         .upi-id {
             background: #f5f5f5;
             padding: 10px;
@@ -141,7 +122,6 @@
             margin: 15px 0;
             word-break: break-all;
         }
-        
         .upi-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -149,7 +129,6 @@
             gap: 10px;
             margin-top: 20px;
         }
-        
         .upi-btn {
             padding: 10px 15px;
             border-radius: 5px;
@@ -161,12 +140,10 @@
             gap: 8px;
             font-size: 14px;
         }
-        
         .paytm { background: #00baf2; }
         .gpay { background: #4285F4; }
         .phonepe { background: #5f259f; }
         .bhim { background: #3b7d4a; }
-        
         .close-btn {
             position: absolute;
             top: 20px;
@@ -180,14 +157,12 @@
             font-size: 20px;
             cursor: pointer;
         }
-        
         .payment-note {
             font-size: 12px;
             margin-top: 15px;
             color: #666;
         }
-
-        /* Audio Player (hidden) */
+        /* Hidden audio */
         #paymentAudio {
             display: none;
         }
@@ -203,9 +178,8 @@
             <img src="https://i.ibb.co/chXnPcQd/IMG-7431.jpg" class="video-thumbnail" onclick="playPreview(this, 'https://files.catbox.moe/0b1ufl.mp4', 'video1')">
             <div class="video-info">
                 <h3 class="video-title">Exclusive Video 1</h3>
-                <video id="video1" controls>
+                <video id="video1" controls controlsList="nodownload noplaybackrate" disablePictureInPicture>
                     <source src="" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
                 <div class="video-actions">
                     <button class="copy-link-btn" onclick="copyVideoLink('video1')">
@@ -220,9 +194,8 @@
             <img src="https://i.ibb.co/XfJNFPbg/IMG-7420.jpg" class="video-thumbnail" onclick="playPreview(this, 'https://files.catbox.moe/0b1ufl.mp4', 'video2')">
             <div class="video-info">
                 <h3 class="video-title">Exclusive Video 2</h3>
-                <video id="video2" controls>
+                <video id="video2" controls controlsList="nodownload noplaybackrate" disablePictureInPicture>
                     <source src="" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
                 <div class="video-actions">
                     <button class="copy-link-btn" onclick="copyVideoLink('video2')">
@@ -237,9 +210,8 @@
             <img src="https://i.ibb.co/6JGtJfB3/IMG-7421.jpg" class="video-thumbnail" onclick="playPreview(this, 'https://files.catbox.moe/0b1ufl.mp4', 'video3')">
             <div class="video-info">
                 <h3 class="video-title">Exclusive Video 3</h3>
-                <video id="video3" controls>
+                <video id="video3" controls controlsList="nodownload noplaybackrate" disablePictureInPicture>
                     <source src="" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
                 <div class="video-actions">
                     <button class="copy-link-btn" onclick="copyVideoLink('video3')">
@@ -285,29 +257,27 @@
     <audio id="paymentAudio" src="https://files.catbox.moe/7ye49n.mp3"></audio>
 
     <script>
+        // Security-enhanced video player
         let currentVideoId = null;
         let previewTimer = null;
-        const previewDuration = 10000; // 10 seconds preview
+        const PREVIEW_DURATION = 10000; // 10 seconds
         const paymentAudio = document.getElementById('paymentAudio');
-
+        
         // Play preview of video
         function playPreview(thumbnail, videoUrl, videoId) {
             // Hide all videos first
-            const allVideos = document.querySelectorAll('video');
-            allVideos.forEach(video => {
-                video.style.display = 'none';
-                video.pause();
-                video.currentTime = 0;
+            document.querySelectorAll('video').forEach(v => {
+                v.style.display = 'none';
+                v.pause();
+                v.currentTime = 0;
             });
             
-            // Set current video ID
+            // Set current video
             currentVideoId = videoId;
-            
-            // Find the video element
             const video = document.getElementById(videoId);
             const source = video.querySelector('source');
             
-            // Set the video source and play
+            // Set video source and play
             source.src = videoUrl;
             video.load();
             video.style.display = 'block';
@@ -315,28 +285,34 @@
             // Start preview timer
             startPreviewTimer(video);
             
-            video.play().catch(e => console.log("Autoplay blocked:", e));
+            // Play video (catch autoplay block)
+            video.play().catch(e => {
+                alert("Click the video to start preview");
+                video.controls = true;
+            });
+            
+            // Hide thumbnail
+            thumbnail.style.display = 'none';
         }
         
-        // Start timer for preview
-        function startPreviewTimer(videoElement) {
-            // Clear any existing timer
+        // Start preview timer
+        function startPreviewTimer(video) {
             clearTimeout(previewTimer);
             
-            // Set new timer
-            previewTimer = setTimeout(() => {
-                videoElement.pause();
-                showPaymentOverlay();
-            }, previewDuration);
+            // Force 1x playback speed
+            video.playbackRate = 1.0;
             
-            // Reset timer if user seeks back
-            videoElement.addEventListener('seeked', () => {
-                if (videoElement.currentTime < previewDuration/1000) {
-                    clearTimeout(previewTimer);
-                    previewTimer = setTimeout(() => {
-                        videoElement.pause();
-                        showPaymentOverlay();
-                    }, previewDuration - (videoElement.currentTime * 1000));
+            // Set timer to show payment after 10 seconds
+            previewTimer = setTimeout(() => {
+                video.pause();
+                showPaymentOverlay();
+            }, PREVIEW_DURATION);
+            
+            // Prevent seeking past preview
+            video.addEventListener('timeupdate', () => {
+                if (video.currentTime > (PREVIEW_DURATION / 1000)) {
+                    video.pause();
+                    showPaymentOverlay();
                 }
             });
         }
@@ -344,9 +320,8 @@
         // Show payment overlay
         function showPaymentOverlay() {
             document.getElementById('paymentOverlay').style.display = 'flex';
-            // Play payment audio
             paymentAudio.currentTime = 0;
-            paymentAudio.play().catch(e => console.log("Audio play blocked:", e));
+            paymentAudio.play().catch(e => console.log("Audio blocked"));
         }
         
         // Close payment overlay
@@ -354,12 +329,15 @@
             document.getElementById('paymentOverlay').style.display = 'none';
             paymentAudio.pause();
             
-            // Restart preview if video exists
+            // Reset video
             if (currentVideoId) {
                 const video = document.getElementById(currentVideoId);
+                const thumbnail = video.closest('.video-card').querySelector('.video-thumbnail');
+                
+                video.style.display = 'none';
+                video.pause();
                 video.currentTime = 0;
-                video.play().catch(e => console.log("Autoplay blocked:", e));
-                startPreviewTimer(video);
+                thumbnail.style.display = 'block';
             }
         }
         
@@ -371,65 +349,40 @@
             let uri;
             
             switch(app) {
-                case 'paytm':
-                    uri = `paytmmp://upi/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}`;
-                    break;
-                case 'gpay':
-                    uri = `tez://upi/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}`;
-                    break;
-                case 'phonepe':
-                    uri = `phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}`;
-                    break;
-                case 'bhim':
-                    uri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}`;
-                    break;
-                default:
-                    uri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}`;
+                case 'paytm': uri = `paytmmp://pay?pa=${upiId}&pn=${name}&am=${amount}`; break;
+                case 'gpay': uri = `tez://pay?pa=${upiId}&pn=${name}&am=${amount}`; break;
+                case 'phonepe': uri = `phonepe://pay?pa=${upiId}&pn=${name}&am=${amount}`; break;
+                case 'bhim': uri = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}`; break;
+                default: uri = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}`;
             }
             
-            window.location.href = uri;
-            
-            // Fallback if app not installed
-            setTimeout(() => {
-                if (!document.hidden) {
-                    window.location.href = `https://upayi.money/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}`;
-                }
-            }, 500);
+            window.open(uri, '_blank');
         }
-
+        
         // Copy video link
         function copyVideoLink(videoId) {
-            const currentUrl = window.location.href.split('?')[0];
-            const videoLink = `${currentUrl}?video=${videoId}`;
-            
-            navigator.clipboard.writeText(videoLink)
+            const url = `${window.location.href.split('?')[0]}?video=${videoId}`;
+            navigator.clipboard.writeText(url)
                 .then(() => {
                     const btn = document.querySelector(`button[onclick="copyVideoLink('${videoId}')"]`);
                     btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    btn.classList.add("copied");
-                    
+                    btn.classList.add('copied');
                     setTimeout(() => {
                         btn.innerHTML = '<i class="fas fa-link"></i> Copy Link';
-                        btn.classList.remove("copied");
+                        btn.classList.remove('copied');
                     }, 2000);
-                })
-                .catch(err => {
-                    alert("Failed to copy link. Please try manually.");
                 });
         }
         
-        // Check URL on page load to auto-play a video if shared
+        // Auto-play if shared link
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const videoId = urlParams.get('video');
             
-            if (videoId) {
-                const videoElement = document.getElementById(videoId);
-                if (videoElement) {
-                    const thumbnail = videoElement.closest('.video-card').querySelector('.video-thumbnail');
-                    const videoUrl = thumbnail.getAttribute('onclick').split("'")[1];
-                    playPreview(thumbnail, videoUrl, videoId);
-                }
+            if (videoId && document.getElementById(videoId)) {
+                const thumbnail = document.querySelector(`.video-thumbnail[onclick*="${videoId}"]`);
+                const videoUrl = thumbnail.getAttribute('onclick').split("'")[1];
+                playPreview(thumbnail, videoUrl, videoId);
             }
         };
     </script>
