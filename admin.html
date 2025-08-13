@@ -3,613 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Platform Admin</title>
+    <title>Admin Panel</title>
     <style>
         :root {
             --primary: #0095f6;
-            --primary-dark: #0064e0;
             --danger: #ff4444;
-            --vip-color: #ff2d55;
-            --desi-color: #4CAF50;
-            --vdeshi-color: #9C27B0;
-            --text-light: rgba(255,255,255,0.9);
-            --text-muted: rgba(255,255,255,0.6);
+            --text-light: #fff;
             --bg-dark: #0f0f0f;
-            --bg-darker: #050505;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        
         body {
             background: var(--bg-dark);
             color: var(--text-light);
-            min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             padding: 20px;
         }
-
+        
         .admin-container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            background: rgba(15,15,15,0.8);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 40px;
-            background: rgba(15,15,15,0.6);
-            border-radius: 12px;
-            text-align: center;
+        
+        .login-container, .admin-content {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-
+        
         .admin-content {
             display: none;
-            padding: 30px;
         }
-
-        h1 {
+        
+        h1, h2 {
+            margin-bottom: 20px;
             text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary);
         }
-
-        h2 {
-            margin-bottom: 20px;
-            color: var(--text-light);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-        }
-
-        .tab-container {
-            display: flex;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 30px;
-        }
-
-        .tab {
-            padding: 12px 20px;
-            cursor: pointer;
-            color: var(--text-muted);
-            border-bottom: 3px solid transparent;
-        }
-
-        .tab.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
+        
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-
+        
         label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--text-muted);
+            margin-bottom: 5px;
         }
-
-        input, textarea, select {
+        
+        input, select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px;
             background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: var(--text-light);
-            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            color: white;
         }
-
+        
         button {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            transition: all 0.3s ease;
+            margin-top: 10px;
         }
-
-        button:hover {
-            background: var(--primary-dark);
-        }
-
+        
         .delete-btn {
             background: var(--danger);
         }
-
-        .delete-btn:hover {
-            background: #d32f2f;
-        }
-
+        
         .video-list, .ad-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
-
+        
         .video-item, .ad-item {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .video-preview {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 15px;
-            background: var(--bg-darker);
         }
-
-        .video-info, .ad-info {
-            margin-bottom: 15px;
-        }
-
-        .video-title, .ad-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .video-stats, .ad-stats {
-            font-size: 14px;
-            color: var(--text-muted);
-            display: flex;
-            gap: 15px;
-        }
-
-        .video-actions, .ad-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .status-message {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
             text-align: center;
             display: none;
         }
-
+        
         .success {
-            background: rgba(0, 200, 81, 0.2);
-            color: #00c851;
-            border: 1px solid #00c851;
+            background: rgba(0,200,81,0.2);
             display: block;
         }
-
+        
         .error {
-            background: rgba(255, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
+            background: rgba(255,68,68,0.2);
             display: block;
-        }
-
-        .color-preview {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .section-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .vip-indicator {
-            background: var(--vip-color);
-        }
-
-        .desi-indicator {
-            background: var(--desi-color);
-        }
-
-        .vdeshi-indicator {
-            background: var(--vdeshi-color);
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="admin-container">
-        <div id="loginSection" class="login-container">
+        <div class="login-container" id="loginSection">
             <h1>Admin Login</h1>
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required placeholder="Enter admin password">
+                    <label>Password</label>
+                    <input type="password" id="password" required>
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <div class="status" id="loginStatus"></div>
         </div>
 
-        <div id="adminContent" class="admin-content">
-            <h1>Video Platform Admin</h1>
+        <div class="admin-content" id="adminContent">
+            <h1>Video Management</h1>
             
-            <div id="statusMessage" class="status-message"></div>
-            
-            <div class="tab-container">
-                <div class="tab active" onclick="showTab('videos')">Manage Videos</div>
-                <div class="tab" onclick="showTab('ads')">Manage Ads</div>
-            </div>
-            
-            <div id="videosTab" class="tab-content active">
-                <h2>Add New Video</h2>
-                <form id="videoForm">
-                    <div class="form-group">
-                        <label for="videoSection">Section</label>
-                        <select id="videoSection" required>
-                            <option value="vip"><span class="section-indicator vip-indicator"></span> VIP</option>
-                            <option value="desi"><span class="section-indicator desi-indicator"></span> DESI</option>
-                            <option value="vdeshi"><span class="section-indicator vdeshi-indicator"></span> VDESHI</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="videoTitle">Video Title</label>
-                        <input type="text" id="videoTitle" required placeholder="Enter video title">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="videoThumbnail">Thumbnail URL</label>
-                        <input type="url" id="videoThumbnail" required placeholder="https://example.com/thumbnail.jpg">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="videoUrl">Video URL</label>
-                        <input type="url" id="videoUrl" required placeholder="https://example.com/video.mp4">
-                    </div>
-                    
-                    <div class="form-group" id="previewSecondsGroup">
-                        <label for="previewSeconds">Preview Seconds (VIP only)</label>
-                        <input type="number" id="previewSeconds" min="1" max="30" value="5">
-                    </div>
-                    
-                    <button type="submit">Add Video</button>
-                </form>
-                
-                <h2>Current Videos</h2>
-                <div class="video-list" id="videoList">
-                    <!-- Videos will be loaded here -->
+            <h2>Add Video</h2>
+            <form id="videoForm">
+                <div class="form-group">
+                    <label>Section</label>
+                    <select id="videoSection" required>
+                        <option value="vip">VIP</option>
+                        <option value="desi">DESI</option>
+                        <option value="vdeshi">VDESHI</option>
+                    </select>
                 </div>
-            </div>
-            
-            <div id="adsTab" class="tab-content">
-                <h2>Add New Ad</h2>
-                <form id="adForm">
-                    <div class="form-group">
-                        <label for="adTitle">Ad Title</label>
-                        <input type="text" id="adTitle" placeholder="Enter ad title (optional)">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="adUrl">Ad Video URL</label>
-                        <input type="url" id="adUrl" required placeholder="https://example.com/ad.mp4">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="adDuration">Ad Duration (seconds)</label>
-                        <input type="number" id="adDuration" min="5" max="30" value="10" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="buttonText">Button Text</label>
-                        <input type="text" id="buttonText" placeholder="e.g. Shop Now, Learn More">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="buttonLink">Button Link</label>
-                        <input type="url" id="buttonLink" placeholder="https://example.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="buttonColor">Button Color</label>
-                        <input type="color" id="buttonColor" value="#0095f6">
-                        <span class="color-preview" id="colorPreview" style="background: #0095f6;"></span>
-                    </div>
-                    
-                    <button type="submit">Add Ad</button>
-                </form>
-                
-                <h2>Current Ads</h2>
-                <div class="ad-list" id="adList">
-                    <!-- Ads will be loaded here -->
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="videoTitle" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Thumbnail URL</label>
+                    <input type="url" id="videoThumbnail" required>
+                </div>
+                <div class="form-group">
+                    <label>Video URL</label>
+                    <input type="url" id="videoUrl" required>
+                </div>
+                <button type="submit">Add Video</button>
+            </form>
+            
+            <h2>Current Videos</h2>
+            <div class="video-list" id="videoList"></div>
+            
+            <h2>Add Ad</h2>
+            <form id="adForm">
+                <div class="form-group">
+                    <label>Ad Video URL</label>
+                    <input type="url" id="adUrl" required>
+                </div>
+                <div class="form-group">
+                    <label>Button Text</label>
+                    <input type="text" id="buttonText">
+                </div>
+                <div class="form-group">
+                    <label>Button Link</label>
+                    <input type="url" id="buttonLink">
+                </div>
+                <button type="submit">Add Ad</button>
+            </form>
+            
+            <h2>Current Ads</h2>
+            <div class="ad-list" id="adList"></div>
+            
+            <div class="status" id="statusMessage"></div>
         </div>
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "admin123"; // Change this to your secure password
+        const ADMIN_PASSWORD = "admin123";
         
-        // Show tab content
-        function showTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-        }
-        
-        // Color preview update
-        document.getElementById('buttonColor').addEventListener('input', function() {
-            document.getElementById('colorPreview').style.background = this.value;
-        });
-        
-        // Toggle preview seconds field based on section
-        document.getElementById('videoSection').addEventListener('change', function() {
-            const previewGroup = document.getElementById('previewSecondsGroup');
-            if (this.value === 'vip') {
-                previewGroup.style.display = 'block';
-            } else {
-                previewGroup.style.display = 'none';
-            }
-        });
-        
-        // Load videos from storage
-        function loadVideos() {
-            const videoList = document.getElementById('videoList');
-            const vipVideos = JSON.parse(localStorage.getItem('vipVideos') || []);
-            const desiVideos = JSON.parse(localStorage.getItem('desiVideos') || []);
-            const vdeshiVideos = JSON.parse(localStorage.getItem('vdeshiVideos') || []);
-            
-            videoList.innerHTML = '';
-            
-            const allVideos = [
-                ...vipVideos.map(v => ({ ...v, section: 'vip' })),
-                ...desiVideos.map(v => ({ ...v, section: 'desi' })),
-                ...vdeshiVideos.map(v => ({ ...v, section: 'vdeshi' }))
-            ];
-            
-            if (allVideos.length === 0) {
-                videoList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No videos added yet</p>';
-                return;
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('adminLoggedIn') === 'true') {
+                showAdminPanel();
             }
             
-            allVideos.forEach((video, index) => {
-                const videoItem = document.createElement('div');
-                videoItem.className = 'video-item';
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = document.getElementById('password').value;
                 
-                const sectionClass = video.section === 'vip' ? 'vip-indicator' : 
-                                   video.section === 'desi' ? 'desi-indicator' : 'vdeshi-indicator';
-                
-                videoItem.innerHTML = `
-                    <div class="video-preview" style="background: var(--bg-darker); display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
-                        <span class="section-indicator ${sectionClass}"></span> ${video.section.toUpperCase()}
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">${video.title || `Video ${video.id}`}</div>
-                        <div class="video-stats">
-                            <span><i class="fas fa-play"></i> ${video.plays || 0}</span>
-                            <span><i class="fas fa-heart"></i> ${video.likes || 0}</span>
-                        </div>
-                    </div>
-                    <div class="video-actions">
-                        <button class="delete-btn" onclick="deleteVideo('${video.section}', ${video.id})">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                videoList.appendChild(videoItem);
+                if (password === ADMIN_PASSWORD) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    showAdminPanel();
+                } else {
+                    showStatus('Incorrect password!', 'error', 'loginStatus');
+                }
             });
-        }
-        
-        // Load ads from storage
-        function loadAds() {
-            const adList = document.getElementById('adList');
-            const ads = JSON.parse(localStorage.getItem('ads') || []);
             
-            adList.innerHTML = '';
-            
-            if (ads.length === 0) {
-                adList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No ads added yet</p>';
-                return;
-            }
-            
-            ads.forEach((ad, index) => {
-                const adItem = document.createElement('div');
-                adItem.className = 'ad-item';
-                adItem.innerHTML = `
-                    <div class="ad-info">
-                        <div class="ad-title">${ad.title || `Ad ${index + 1}`}</div>
-                        <div class="ad-stats">
-                            <span>Duration: ${ad.duration || 10}s</span>
-                            ${ad.buttonText ? `<span style="color: ${ad.buttonColor || '#0095f6'}">${ad.buttonText}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="ad-actions">
-                        <button class="delete-btn" onclick="deleteAd(${index})">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                `;
-                adList.appendChild(adItem);
+            document.getElementById('videoForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                addVideo();
             });
-        }
-        
-        // Show status message
-        function showStatus(message, type) {
-            const statusElement = document.getElementById('statusMessage');
-            statusElement.textContent = message;
-            statusElement.className = 'status-message ' + type;
             
-            setTimeout(() => {
-                statusElement.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Login form
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            document.getElementById('adForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                addAd();
+            });
             
-            const password = document.getElementById('password').value;
-            
-            if (password === ADMIN_PASSWORD) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                loadVideos();
-                loadAds();
-            } else {
-                showStatus('Incorrect password!', 'error');
-            }
+            loadContent();
         });
         
-        // Add video form
-        document.getElementById('videoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const section = document.getElementById('videoSection').value;
-            const title = document.getElementById('videoTitle').value;
-            const thumbnail = document.getElementById('videoThumbnail').value;
-            const videoUrl = document.getElementById('videoUrl').value;
-            const previewSeconds = document.getElementById('previewSeconds').value;
-            
-            let videos;
-            if (section === 'vip') {
-                videos = JSON.parse(localStorage.getItem('vipVideos') || '[]');
-                videos.push({
-                    id: videos.length > 0 ? Math.max(...videos.map(v => v.id)) + 1 : 1,
-                    title: title,
-                    thumbnail: thumbnail,
-                    videoUrl: videoUrl,
-                    previewSeconds: parseInt(previewSeconds),
-                    likes: 0,
-                    plays: 0
-                });
-                localStorage.setItem('vipVideos', JSON.stringify(videos));
-            } else if (section === 'desi') {
-                videos = JSON.parse(localStorage.getItem('desiVideos') || '[]');
-                videos.push({
-                    id: videos.length > 0 ? Math.max(...videos.map(v => v.id)) + 1 : 1,
-                    title: title,
-                    thumbnail: thumbnail,
-                    videoUrl: videoUrl,
-                    likes: 0,
-                    plays: 0
-                });
-                localStorage.setItem('desiVideos', JSON.stringify(videos));
-            } else if (section === 'vdeshi') {
-                videos = JSON.parse(localStorage.getItem('vdeshiVideos') || '[]');
-                videos.push({
-                    id: videos.length > 0 ? Math.max(...videos.map(v => v.id)) + 1 : 1,
-                    title: title,
-                    thumbnail: thumbnail,
-                    videoUrl: videoUrl,
-                    likes: 0,
-                    plays: 0
-                });
-                localStorage.setItem('vdeshiVideos', JSON.stringify(videos));
-            }
-            
+        function showAdminPanel() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+        }
+        
+        function showStatus(message, type, elementId = 'statusMessage') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+            setTimeout(() => element.style.display = 'none', 3000);
+        }
+        
+        function loadContent() {
             loadVideos();
-            showStatus('Video added successfully!', 'success');
-            this.reset();
-            
-            // Trigger storage event to update main app
-            window.dispatchEvent(new Event('storage'));
-        });
-        
-        // Add ad form
-        document.getElementById('adForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const title = document.getElementById('adTitle').value;
-            const adUrl = document.getElementById('adUrl').value;
-            const duration = parseInt(document.getElementById('adDuration').value);
-            const buttonText = document.getElementById('buttonText').value;
-            const buttonLink = document.getElementById('buttonLink').value;
-            const buttonColor = document.getElementById('buttonColor').value;
-            
-            const ads = JSON.parse(localStorage.getItem('ads') || '[]');
-            
-            ads.push({ 
-                id: ads.length > 0 ? Math.max(...ads.map(a => a.id)) + 1 : 1,
-                title: title,
-                videoUrl: adUrl,
-                duration: duration,
-                buttonText: buttonText,
-                buttonLink: buttonLink,
-                buttonColor: buttonColor
-            });
-            
-            localStorage.setItem('ads', JSON.stringify(ads));
             loadAds();
-            showStatus('Ad added successfully!', 'success');
-            this.reset();
-            
-            // Trigger storage event to update main app
-            window.dispatchEvent(new Event('storage'));
-        });
+        }
         
-        // Delete video
-        function deleteVideo(section, id) {
-            let videos;
-            if (section === 'vip') {
-                videos = JSON.parse(localStorage.getItem('vipVideos') || '[]');
-                videos = videos.filter(v => v.id !== id);
-                localStorage.setItem('vipVideos', JSON.stringify(videos));
-            } else if (section === 'desi') {
-                videos = JSON.parse(localStorage.getItem('desiVideos') || '[]');
-                videos = videos.filter(v => v.id !== id);
-                localStorage.setItem('desiVideos', JSON.stringify(videos));
-            } else if (section === 'vdeshi') {
-                videos = JSON.parse(localStorage.getItem('vdeshiVideos') || '[]');
-                videos = videos.filter(v => v.id !== id);
-                localStorage.setItem('vdeshiVideos', JSON.stringify(videos));
-            }
+        function loadVideos() {
+            const sections = ['vip', 'desi', 'vdeshi'];
+            let allVideos = [];
             
+            sections.forEach(section => {
+                const videos = JSON.parse(localStorage.getItem(`${section}Videos`)) || [];
+                videos.forEach(video => {
+                    video.section = section;
+                    allVideos.push(video);
+                });
+            });
+            
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = allVideos.map(video => `
+                <div class="video-item">
+                    <h3>${video.title} (${video.section.toUpperCase()})</h3>
+                    <p>${video.url.substring(0, 30)}...</p>
+                    <button class="delete-btn" onclick="deleteVideo('${video.section}', ${video.id})">
+                        Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function loadAds() {
+            const ads = JSON.parse(localStorage.getItem('ads')) || [];
+            const adList = document.getElementById('adList');
+            
+            adList.innerHTML = ads.map((ad, index) => `
+                <div class="ad-item">
+                    <p>${ad.url.substring(0, 30)}...</p>
+                    <button class="delete-btn" onclick="deleteAd(${index})">
+                        Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function addVideo() {
+            const section = document.getElementById('videoSection').value;
+            const video = {
+                id: Date.now(),
+                title: document.getElementById('videoTitle').value,
+                thumbnail: document.getElementById('videoThumbnail').value,
+                url: document.getElementById('videoUrl').value
+            };
+            
+            const videos = JSON.parse(localStorage.getItem(`${section}Videos`)) || [];
+            videos.push(video);
+            localStorage.setItem(`${section}Videos`, JSON.stringify(videos));
+            
+            showStatus('Video added successfully!', 'success');
+            document.getElementById('videoForm').reset();
             loadVideos();
-            showStatus('Video deleted successfully!', 'success');
-            
-            // Trigger storage event to update main app
             window.dispatchEvent(new Event('storage'));
         }
         
-        // Delete ad
-        function deleteAd(index) {
-            const ads = JSON.parse(localStorage.getItem('ads') || '[]');
+        function addAd() {
+            const ad = {
+                url: document.getElementById('adUrl').value,
+                buttonText: document.getElementById('buttonText').value,
+                buttonLink: document.getElementById('buttonLink').value
+            };
             
-            if (index >= 0 && index < ads.length) {
-                ads.splice(index, 1);
-                localStorage.setItem('ads', JSON.stringify(ads));
-                loadAds();
-                showStatus('Ad deleted successfully!', 'success');
-                
-                // Trigger storage event to update main app
-                window.dispatchEvent(new Event('storage'));
-            }
+            const ads = JSON.parse(localStorage.getItem('ads')) || [];
+            ads.push(ad);
+            localStorage.setItem('ads', JSON.stringify(ads));
+            
+            showStatus('Ad added successfully!', 'success');
+            document.getElementById('adForm').reset();
+            loadAds();
+            window.dispatchEvent(new Event('storage'));
+        }
+        
+        function deleteVideo(section, id) {
+            const videos = JSON.parse(localStorage.getItem(`${section}Videos`)) || [];
+            const updated = videos.filter(video => video.id !== id);
+            localStorage.setItem(`${section}Videos`, JSON.stringify(updated));
+            
+            showStatus('Video deleted!', 'success');
+            loadVideos();
+            window.dispatchEvent(new Event('storage'));
+        }
+        
+        function deleteAd(index) {
+            const ads = JSON.parse(localStorage.getItem('ads')) || [];
+            ads.splice(index, 1);
+            localStorage.setItem('ads', JSON.stringify(ads));
+            
+            showStatus('Ad deleted!', 'success');
+            loadAds();
+            window.dispatchEvent(new Event('storage'));
         }
     </script>
 </body>
