@@ -3,22 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Video Content</title>
+    <title>Premium Video Platform</title>
     <style>
+        :root {
+            --primary: #0095f6;
+            --primary-dark: #0064e0;
+            --danger: #ff4444;
+            --vip-color: #ff2d55;
+            --desi-color: #4CAF50;
+            --vdeshi-color: #9C27B0;
+            --text-light: rgba(255,255,255,0.9);
+            --text-muted: rgba(255,255,255,0.6);
+            --bg-dark: #0f0f0f;
+            --bg-darker: #050505;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #e1e1e1;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
-        
-        /* Hero Poster Section */
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Hero Section */
         .hero-poster {
             position: relative;
             height: 40vh;
@@ -29,7 +81,7 @@
             justify-content: center;
             overflow: hidden;
         }
-        
+
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -38,7 +90,7 @@
             bottom: 0;
             background: linear-gradient(45deg, rgba(0,0,0,0.6), rgba(255,45,85,0.2));
         }
-        
+
         .hero-content {
             position: relative;
             z-index: 2;
@@ -46,26 +98,26 @@
             padding: 20px;
             max-width: 800px;
         }
-        
+
         .hero-title {
             font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
             margin-bottom: 15px;
-            background: linear-gradient(45deg, #ff2d55, #ff6b9d);
+            background: linear-gradient(45deg, var(--vip-color), var(--vdeshi-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 0 30px rgba(255,45,85,0.5);
         }
-        
+
         .hero-subtitle {
             font-size: 1.1rem;
             margin-bottom: 25px;
             opacity: 0.9;
         }
-        
+
         .explore-btn {
-            background: linear-gradient(45deg, #ff2d55, #ff6b9d);
+            background: linear-gradient(45deg, var(--vip-color), var(--vdeshi-color));
             color: white;
             padding: 15px 30px;
             border: none;
@@ -75,24 +127,23 @@
             transition: all 0.3s ease;
             box-shadow: 0 8px 25px rgba(255,45,85,0.3);
         }
-        
+
         .explore-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(255,45,85,0.4);
         }
-        
+
         /* Main Content */
         .main-content {
             padding: 60px 20px;
         }
-        
+
         .section-title {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 50px;
-            color: #ff2d55;
         }
-        
+
         /* Video Grid */
         .video-grid {
             display: grid;
@@ -101,21 +152,21 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .video-card {
             background: rgba(26, 26, 26, 0.9);
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,45,85,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        
+
         .video-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(255,45,85,0.2);
         }
-        
+
         .video-thumbnail {
             width: 100%;
             height: 200px;
@@ -123,39 +174,39 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .video-thumbnail:hover {
             transform: scale(1.05);
         }
-        
+
         .video-info {
             padding: 20px;
         }
-        
+
         .video-title {
             font-size: 1.2rem;
             margin-bottom: 15px;
             font-weight: 600;
         }
-        
+
         video {
             width: 100%;
             border-radius: 10px;
             display: none;
             background: #000;
         }
-        
+
         .active-video {
             display: block;
         }
-        
+
         .video-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 15px;
         }
-        
+
         .copy-link-btn {
             background: linear-gradient(45deg, #333, #555);
             color: white;
@@ -166,16 +217,16 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
         }
-        
+
         .copy-link-btn:hover {
             background: linear-gradient(45deg, #555, #777);
             transform: translateY(-2px);
         }
-        
+
         .copy-link-btn.copied {
             background: linear-gradient(45deg, #4CAF50, #66BB6A);
         }
-        
+
         /* Payment Overlay */
         .payment-overlay {
             position: fixed;
@@ -190,7 +241,7 @@
             z-index: 1000;
             backdrop-filter: blur(15px);
         }
-        
+
         .payment-box {
             background: #ffffff;
             padding: 30px;
@@ -203,28 +254,28 @@
             position: relative;
             border: 1px solid #f0f0f0;
         }
-        
+
         .payment-title {
             font-size: 1.6rem;
             margin-bottom: 8px;
             color: #333;
             font-weight: 600;
         }
-        
+
         .payment-subtitle {
             font-size: 0.95rem;
             margin-bottom: 25px;
             color: #666;
         }
-        
+
         .payment-amount {
             font-size: 2.5rem;
             font-weight: 700;
             margin: 20px 0 30px 0;
-            color: #ff2d55;
+            color: var(--vip-color);
             text-shadow: 0 2px 4px rgba(255,45,85,0.2);
         }
-        
+
         .qr-section {
             margin: 25px 0;
             padding: 20px;
@@ -232,7 +283,7 @@
             border-radius: 15px;
             border: 2px solid #f0f0f0;
         }
-        
+
         .qr-code {
             width: 180px;
             height: 180px;
@@ -243,13 +294,13 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: block;
         }
-        
+
         .scan-text {
             font-size: 0.9rem;
             color: #555;
             font-weight: 500;
         }
-        
+
         .upi-id {
             background: #f8f9fa;
             padding: 10px;
@@ -261,14 +312,14 @@
             border: 1px solid #e9ecef;
             color: #495057;
         }
-        
+
         .upi-buttons {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-top: 20px;
         }
-        
+
         .upi-btn {
             padding: 10px 12px;
             border-radius: 10px;
@@ -284,17 +335,17 @@
             transition: all 0.2s ease;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
+
         .upi-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        
+
         .paytm { background: #00baf2; }
         .gpay { background: #4285F4; }
         .phonepe { background: #5f259f; }
         .bhim { background: #4CAF50; }
-        
+
         .close-btn {
             position: absolute;
             top: 12px;
@@ -312,19 +363,149 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .close-btn:hover {
-            background: #ff2d55;
+            background: var(--vip-color);
             color: white;
         }
-        
+
         .payment-note {
             font-size: 0.8rem;
             margin-top: 15px;
             color: #999;
             line-height: 1.4;
         }
-        
+
+        /* Timer Display */
+        .timer-display {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(15,15,15,0.8);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 1000;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timer-display::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .timer-expired {
+            color: var(--danger);
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+
+        /* Ad Modal */
+        .ad-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ad-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .ad-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: black;
+        }
+
+        .ad-timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(15,15,15,0.8);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        .ad-skip {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none;
+        }
+
+        .ad-button {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+
+        /* Section Colors */
+        #vip-section .section-title {
+            color: var(--vip-color);
+        }
+
+        #desi-section .section-title {
+            color: var(--desi-color);
+        }
+
+        #vdeshi-section .section-title {
+            color: var(--vdeshi-color);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero-poster {
@@ -358,26 +539,42 @@
                 font-size: 1rem;
             }
         }
-        
+
         /* Loading Animation */
         .loading {
             opacity: 0.7;
             pointer-events: none;
         }
-        
+
         /* Hidden audio */
         #paymentAudio {
             display: none;
         }
-        
+
         /* Smooth scroll */
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Section visibility */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="showSection('vip')">VIP</div>
+        <div class="nav-tab" onclick="showSection('desi')">DESI</div>
+        <div class="nav-tab" onclick="showSection('vdeshi')">VDESHI</div>
+    </div>
+
     <!-- Hero Poster Section -->
     <section class="hero-poster">
         <div class="hero-overlay"></div>
@@ -390,62 +587,30 @@
         </div>
     </section>
 
-    <!-- Main Content -->
-    <section class="main-content">
-        <h2 class="section-title">Featured Videos</h2>
-        
-        <div class="video-grid">
-            <!-- Video 1 -->
-            <div class="video-card">
-                <img src="https://files.catbox.moe/d25ggr.jpeg" class="video-thumbnail" onclick="playPreview(this, 'https://files.catbox.moe/04ymzz.mp4', 'video1')" alt="Exclusive Video 1">
-                <div class="video-info">
-                    <h3 class="video-title">Exclusive Premium Video 1</h3>
-                    <video id="video1" controls controlsList="nodownload noplaybackrate" disablePictureInPicture preload="none">
-                        <source src="" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-actions">
-                        <button class="copy-link-btn" onclick="copyVideoLink('video1')">
-                            <i class="fas fa-link"></i> Share Video
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Video 2 -->
-            <div class="video-card">
-                <img src="https://i.ibb.co/XfJNFPbg/IMG-7420.jpg" class="video-thumbnail" onclick="playPreview(this, 'https://files.catbox.moe/0b1ufl.mp4', 'video2')" alt="Exclusive Video 2">
-                <div class="video-info">
-                    <h3 class="video-title">Exclusive Premium Video 2</h3>
-                    <video id="video2" controls controlsList="nodownload noplaybackrate" disablePictureInPicture preload="none">
-                        <source src="" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-actions">
-                        <button class="copy-link-btn" onclick="copyVideoLink('video2')">
-                            <i class="fas fa-link"></i> Share Video
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Video 3 -->
-            <div class="video-card">
-                <img src="https://i.ibb.co/6JGtJfB3/IMG-7421.jpg" class="video-thumbnail" onclick="playPreview(this, 'https://files.catbox.moe/0b1ufl.mp4', 'video3')" alt="Exclusive Video 3">
-                <div class="video-info">
-                    <h3 class="video-title">Exclusive Premium Video 3</h3>
-                    <video id="video3" controls controlsList="nodownload noplaybackrate" disablePictureInPicture preload="none">
-                        <source src="" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-actions">
-                        <button class="copy-link-btn" onclick="copyVideoLink('video3')">
-                            <i class="fas fa-link"></i> Share Video
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <!-- VIP Content Section -->
+    <section class="main-content content-section active" id="vip-section">
+        <h2 class="section-title">VIP Videos</h2>
+        <div class="video-grid" id="vip-videos">
+            <!-- VIP videos will be loaded here -->
         </div>
+    </section>
+
+    <!-- DESI Content Section -->
+    <section class="main-content content-section" id="desi-section">
+        <h2 class="section-title">DESI Videos</h2>
+        <div class="video-grid" id="desi-videos">
+            <!-- DESI videos will be loaded here -->
+        </div>
+        <div class="timer-display" id="desiTimer">01:00</div>
+    </section>
+
+    <!-- VDESHI Content Section -->
+    <section class="main-content content-section" id="vdeshi-section">
+        <h2 class="section-title">VDESHI Videos</h2>
+        <div class="video-grid" id="vdeshi-videos">
+            <!-- VDESHI videos will be loaded here -->
+        </div>
+        <div class="timer-display" id="vdeshiTimer">01:00</div>
     </section>
 
     <!-- Payment Overlay -->
@@ -483,43 +648,134 @@
         </div>
     </div>
 
+    <!-- Ad Modal -->
+    <div class="ad-modal" id="adModal">
+        <div class="ad-content">
+            <video class="ad-video" id="adVideo"></video>
+            <div class="ad-timer" id="adTimer">Ad: 10s</div>
+            <button class="ad-skip" id="adSkip" onclick="skipAd()">Skip Ad</button>
+            <button class="ad-button" id="customAdButton" onclick="handleAdButtonClick()">Visit Website</button>
+        </div>
+    </div>
+
     <!-- Audio Element -->
-    <audio id="paymentAudio"" preload="none"></audio>
+    <audio id="paymentAudio" preload="none"></audio>
 
     <script>
-        // Enhanced video player with better performance
+        // App State
         let currentVideoId = null;
         let previewTimer = null;
-        const PREVIEW_DURATION = 10000; // 10 seconds
-        const paymentAudio = document.getElementById('paymentAudio');
+        let currentSection = 'vip';
         
-        // Optimized lazy loading
-        const observerOptions = {
-            root: null,
-            rootMargin: '50px',
-            threshold: 0.1
-        };
+        // Timer states for DESI and VDESHI sections
+        let desiTimeLeft = 60;
+        let vdeshiTimeLeft = 60;
+        let desiTimerInterval;
+        let vdeshiTimerInterval;
+        let isAdPlaying = false;
+        let adTimeLeft = 10;
+        let adInterval;
+        let currentAd = null;
         
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        imageObserver.unobserve(img);
-                    }
-                }
-            });
-        }, observerOptions);
+        // Data storage
+        let vipVideos = [];
+        let desiVideos = [];
+        let vdeshiVideos = [];
+        let ads = [];
         
-        // Initialize lazy loading
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDataFromStorage();
+            renderAllVideos();
+            setupEventListeners();
+            handleSharedLink();
+            
+            // Start with VIP section
+            showSection('vip');
         });
         
-        // Enhanced play preview function
+        // Load data from localStorage
+        function loadDataFromStorage() {
+            vipVideos = JSON.parse(localStorage.getItem('vipVideos')) || [];
+            desiVideos = JSON.parse(localStorage.getItem('desiVideos')) || [];
+            vdeshiVideos = JSON.parse(localStorage.getItem('vdeshiVideos')) || [];
+            ads = JSON.parse(localStorage.getItem('ads')) || [];
+        }
+        
+        // Save data to localStorage
+        function saveDataToStorage() {
+            localStorage.setItem('vipVideos', JSON.stringify(vipVideos));
+            localStorage.setItem('desiVideos', JSON.stringify(desiVideos));
+            localStorage.setItem('vdeshiVideos', JSON.stringify(vdeshiVideos));
+            localStorage.setItem('ads', JSON.stringify(ads));
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closePayment();
+                    closeAd();
+                }
+            });
+        }
+        
+        // Render all videos
+        function renderAllVideos() {
+            renderVideos('vip', vipVideos);
+            renderVideos('desi', desiVideos);
+            renderVideos('vdeshi', vdeshiVideos);
+        }
+        
+        // Render videos for a section
+        function renderVideos(section, videos) {
+            const container = document.getElementById(`${section}-videos`);
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (videos.length === 0) {
+                container.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#aaa;">No videos available</p>';
+                return;
+            }
+            
+            // Render video cards
+            videos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.innerHTML = `
+                    <img src="${video.thumbnail}" class="video-thumbnail" onclick="playPreview(this, '${video.videoUrl}', '${section}-${video.id}')" alt="${video.title}">
+                    <div class="video-info">
+                        <h3 class="video-title">${video.title}</h3>
+                        <video id="${section}-${video.id}" controls controlsList="nodownload noplaybackrate" disablePictureInPicture preload="none">
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-actions">
+                            <button class="copy-link-btn" onclick="copyVideoLink('${section}-${video.id}')">
+                                <i class="fas fa-link"></i> Share Video
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(videoCard);
+            });
+        }
+        
+        // Play video preview
         function playPreview(thumbnail, videoUrl, videoId) {
+            // Get section from videoId
+            const section = videoId.split('-')[0];
+            
+            // For DESI and VDESHI sections, check timer
+            if ((section === 'desi' && desiTimeLeft <= 0) || 
+                (section === 'vdeshi' && vdeshiTimeLeft <= 0)) {
+                showAd();
+                return;
+            }
+            
             // Add loading state
             thumbnail.style.opacity = '0.7';
             
@@ -534,6 +790,7 @@
                     const otherThumbnail = otherCard.querySelector('.video-thumbnail');
                     if (otherThumbnail) {
                         otherThumbnail.style.display = 'block';
+                        otherThumbnail.style.opacity = '1';
                     }
                 }
             });
@@ -552,8 +809,20 @@
             video.style.display = 'block';
             thumbnail.style.display = 'none';
             
+            // Set preview duration based on section
+            let previewDuration = 5000; // Default 5 seconds for VIP
+            if (section === 'desi' || section === 'vdeshi') {
+                previewDuration = 10000; // 10 seconds for DESI/VDESHI
+            } else {
+                // For VIP, get the specific preview duration
+                const videoData = vipVideos.find(v => videoId.endsWith(v.id));
+                if (videoData && videoData.previewSeconds) {
+                    previewDuration = videoData.previewSeconds * 1000;
+                }
+            }
+            
             // Start preview timer
-            startPreviewTimer(video);
+            startPreviewTimer(video, previewDuration, section);
             
             // Play video with error handling
             const playPromise = video.play();
@@ -563,14 +832,13 @@
                 }).catch(error => {
                     console.log("Auto-play was prevented:", error);
                     thumbnail.style.opacity = '1';
-                    // Show play button overlay or similar UI feedback
                     alert("Click the video to start preview");
                 });
             }
         }
         
-        // Enhanced preview timer
-        function startPreviewTimer(video) {
+        // Start preview timer
+        function startPreviewTimer(video, duration, section) {
             clearTimeout(previewTimer);
             
             // Enforce playback restrictions
@@ -580,42 +848,47 @@
             // Disable context menu
             video.oncontextmenu = () => false;
             
-            // Prevent keyboard shortcuts
-            video.addEventListener('keydown', (e) => {
-                e.preventDefault();
-                return false;
-            });
-            
             // Set timer to show payment after preview duration
             previewTimer = setTimeout(() => {
                 video.pause();
-                showPaymentOverlay();
-            }, PREVIEW_DURATION);
+                
+                // Different behavior based on section
+                if (section === 'vip') {
+                    showPaymentOverlay();
+                } else if (section === 'desi' || section === 'vdeshi') {
+                    showAd();
+                }
+            }, duration);
             
             // Prevent seeking past preview and monitor playback
-            video.addEventListener('timeupdate', handleTimeUpdate);
-            video.addEventListener('seeking', handleSeeking);
+            video.addEventListener('timeupdate', function() {
+                if (this.currentTime > (duration / 1000)) {
+                    this.pause();
+                    clearTimeout(previewTimer);
+                    
+                    if (section === 'vip') {
+                        showPaymentOverlay();
+                    } else if (section === 'desi' || section === 'vdeshi') {
+                        showAd();
+                    }
+                }
+            });
+            
+            video.addEventListener('seeking', function() {
+                if (this.currentTime > (duration / 1000)) {
+                    this.currentTime = 0;
+                    this.pause();
+                    
+                    if (section === 'vip') {
+                        showPaymentOverlay();
+                    } else if (section === 'desi' || section === 'vdeshi') {
+                        showAd();
+                    }
+                }
+            });
         }
         
-        function handleTimeUpdate() {
-            const video = this;
-            if (video.currentTime > (PREVIEW_DURATION / 1000)) {
-                video.pause();
-                clearTimeout(previewTimer);
-                showPaymentOverlay();
-            }
-        }
-        
-        function handleSeeking() {
-            const video = this;
-            if (video.currentTime > (PREVIEW_DURATION / 1000)) {
-                video.currentTime = 0;
-                video.pause();
-                showPaymentOverlay();
-            }
-        }
-        
-        // Enhanced payment overlay
+        // Show payment overlay
         function showPaymentOverlay() {
             const overlay = document.getElementById('paymentOverlay');
             overlay.style.display = 'flex';
@@ -626,6 +899,7 @@
             }, 10);
             
             // Play notification sound
+            const paymentAudio = document.getElementById('paymentAudio');
             if (paymentAudio) {
                 paymentAudio.currentTime = 0;
                 paymentAudio.play().catch(e => console.log("Audio blocked by browser"));
@@ -635,7 +909,7 @@
             document.body.style.overflow = 'hidden';
         }
         
-        // Enhanced close payment function
+        // Close payment overlay
         function closePayment() {
             const overlay = document.getElementById('paymentOverlay');
             
@@ -646,6 +920,7 @@
             }, 300);
             
             // Stop audio
+            const paymentAudio = document.getElementById('paymentAudio');
             if (paymentAudio) {
                 paymentAudio.pause();
                 paymentAudio.currentTime = 0;
@@ -673,7 +948,195 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Enhanced UPI function with better error handling
+        // Show section
+        function showSection(section) {
+            // Update navigation tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activate clicked tab
+            event.target.classList.add('active');
+            
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(`${section}-section`).classList.add('active');
+            currentSection = section;
+            
+            // Start timer if DESI or VDESHI section
+            if (section === 'desi') {
+                startDesiTimer();
+            } else if (section === 'vdeshi') {
+                startVdeshiTimer();
+            }
+        }
+        
+        // Start DESI timer
+        function startDesiTimer() {
+            clearInterval(desiTimerInterval);
+            desiTimeLeft = 60;
+            updateDesiTimer();
+            
+            desiTimerInterval = setInterval(() => {
+                desiTimeLeft--;
+                updateDesiTimer();
+                
+                if (desiTimeLeft <= 0) {
+                    clearInterval(desiTimerInterval);
+                    document.getElementById('desiTimer').textContent = 'TIME UP';
+                    document.getElementById('desiTimer').classList.add('timer-expired');
+                }
+            }, 1000);
+        }
+        
+        // Update DESI timer display
+        function updateDesiTimer() {
+            const minutes = Math.floor(desiTimeLeft / 60);
+            const seconds = desiTimeLeft % 60;
+            document.getElementById('desiTimer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Start VDESHI timer
+        function startVdeshiTimer() {
+            clearInterval(vdeshiTimerInterval);
+            vdeshiTimeLeft = 60;
+            updateVdeshiTimer();
+            
+            vdeshiTimerInterval = setInterval(() => {
+                vdeshiTimeLeft--;
+                updateVdeshiTimer();
+                
+                if (vdeshiTimeLeft <= 0) {
+                    clearInterval(vdeshiTimerInterval);
+                    document.getElementById('vdeshiTimer').textContent = 'TIME UP';
+                    document.getElementById('vdeshiTimer').classList.add('timer-expired');
+                }
+            }, 1000);
+        }
+        
+        // Update VDESHI timer display
+        function updateVdeshiTimer() {
+            const minutes = Math.floor(vdeshiTimeLeft / 60);
+            const seconds = vdeshiTimeLeft % 60;
+            document.getElementById('vdeshiTimer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Show ad
+        function showAd() {
+            if (ads.length === 0) {
+                // If no ads, just grant more time for DESI/VDESHI
+                if (currentSection === 'desi') {
+                    desiTimeLeft += 60;
+                    startDesiTimer();
+                } else if (currentSection === 'vdeshi') {
+                    vdeshiTimeLeft += 60;
+                    startVdeshiTimer();
+                }
+                return;
+            }
+            
+            // Select random ad
+            currentAd = ads[Math.floor(Math.random() * ads.length)];
+            adTimeLeft = currentAd.duration || 10;
+            
+            const adModal = document.getElementById('adModal');
+            const adVideo = document.getElementById('adVideo');
+            const adTimer = document.getElementById('adTimer');
+            const adSkip = document.getElementById('adSkip');
+            const customAdButton = document.getElementById('customAdButton');
+            
+            isAdPlaying = true;
+            adModal.style.display = 'flex';
+            
+            // Set ad button properties
+            if (currentAd.buttonText) {
+                customAdButton.textContent = currentAd.buttonText;
+            }
+            if (currentAd.buttonColor) {
+                customAdButton.style.background = currentAd.buttonColor;
+            }
+            customAdButton.style.display = currentAd.buttonLink ? 'block' : 'none';
+            
+            // Pause current video
+            if (currentVideoId) {
+                const video = document.getElementById(currentVideoId);
+                if (video) video.pause();
+            }
+            
+            // Set ad video source
+            adVideo.innerHTML = `<source src="${currentAd.videoUrl}" type="video/mp4">`;
+            adVideo.load();
+            adVideo.muted = false;
+            adVideo.play();
+            
+            // Ad timer
+            adInterval = setInterval(() => {
+                adTimeLeft--;
+                adTimer.textContent = `Ad: ${adTimeLeft}s`;
+                
+                if (adTimeLeft <= 5) {
+                    adSkip.style.display = 'block';
+                }
+                
+                if (adTimeLeft <= 0) {
+                    skipAd();
+                }
+            }, 1000);
+        }
+        
+        // Handle custom ad button click
+        function handleAdButtonClick() {
+            if (currentAd && currentAd.buttonLink) {
+                window.open(currentAd.buttonLink, '_blank');
+            }
+        }
+        
+        // Skip ad
+        function skipAd() {
+            const adModal = document.getElementById('adModal');
+            const adVideo = document.getElementById('adVideo');
+            const adSkip = document.getElementById('adSkip');
+            
+            clearInterval(adInterval);
+            adVideo.pause();
+            adVideo.currentTime = 0;
+            adModal.style.display = 'none';
+            adSkip.style.display = 'none';
+            isAdPlaying = false;
+            
+            // Grant more time for DESI/VDESHI
+            if (currentSection === 'desi') {
+                desiTimeLeft += 60;
+                startDesiTimer();
+            } else if (currentSection === 'vdeshi') {
+                vdeshiTimeLeft += 60;
+                startVdeshiTimer();
+            }
+            
+            // Resume current video if any
+            if (currentVideoId) {
+                const video = document.getElementById(currentVideoId);
+                if (video) video.play();
+            }
+        }
+        
+        // Close ad
+        function closeAd() {
+            const adModal = document.getElementById('adModal');
+            const adVideo = document.getElementById('adVideo');
+            
+            clearInterval(adInterval);
+            adVideo.pause();
+            adVideo.currentTime = 0;
+            adModal.style.display = 'none';
+            isAdPlaying = false;
+        }
+        
+        // Enhanced UPI function
         function openUPI(app) {
             const upiId = "netc.34161FA820328AA2D218C8C0@mairtel";
             const name = encodeURIComponent("Premium Video Access");
@@ -699,11 +1162,9 @@
                     uri = baseUPI;
             }
             
-            // Try to open the app, fallback to generic UPI
             try {
                 window.open(uri, '_blank');
                 
-                // Fallback after 2 seconds if app doesn't open
                 setTimeout(() => {
                     if (confirm(`${app} app not found. Open with default UPI app?`)) {
                         window.open(baseUPI, '_blank');
@@ -716,7 +1177,7 @@
             }
         }
         
-        // Enhanced copy function
+        // Copy video link
         async function copyVideoLink(videoId) {
             const url = `${window.location.href.split('?')[0]}?video=${videoId}`;
             const btn = document.querySelector(`button[onclick="copyVideoLink('${videoId}')"]`);
@@ -763,12 +1224,18 @@
             }
         }
         
-        // Enhanced auto-play for shared links
+        // Handle shared link
         function handleSharedLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const videoId = urlParams.get('video');
             
             if (videoId && document.getElementById(videoId)) {
+                // Extract section from videoId
+                const section = videoId.split('-')[0];
+                
+                // Show the correct section
+                showSection(section);
+                
                 // Smooth scroll to video section first
                 document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
                 
@@ -783,37 +1250,20 @@
             }
         }
         
-        // Enhanced initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle shared links
-            handleSharedLink();
-            
-            // Add keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closePayment();
-                }
-            });
-            
-            // Prevent right-click on videos
-            document.querySelectorAll('video').forEach(video => {
-                video.addEventListener('contextmenu', e => e.preventDefault());
-            });
-            
-            // Performance optimization: preload critical resources
-            const link = document.createElement('link');
-            link.rel = 'prefetch';
-            link.href = 'https://files.catbox.moe/0b1ufl.mp4';
-            document.head.appendChild(link);
-        });
-        
-        // Handle page visibility changes (prevent circumvention)
+        // Handle page visibility changes
         document.addEventListener('visibilitychange', function() {
             if (document.hidden && currentVideoId) {
                 const video = document.getElementById(currentVideoId);
                 if (video && !video.paused) {
                     video.pause();
-                    showPaymentOverlay();
+                    
+                    // Show payment or ad based on section
+                    const section = currentVideoId.split('-')[0];
+                    if (section === 'vip') {
+                        showPaymentOverlay();
+                    } else if (section === 'desi' || section === 'vdeshi') {
+                        showAd();
+                    }
                 }
             }
         });
